@@ -1,0 +1,6 @@
+# vim: ft=sh
+
+aws_profile=/bin/bash -c 'read -p "Enter AWS profile: " aws_profile && echo $aws_profile'
+aws_account=echo $(aws ec2 describe-security-groups --group-names 'Default' --query 'SecurityGroups[0].OwnerId' --output text --profile $aws_profile)
+aws_region=echo $(aws configure get region)
+aws_resource_prefix=/bin/bash -c 'read -p "Enter AWS resource prefix: " aws_resource_prefix && echo $aws_resource_prefix'

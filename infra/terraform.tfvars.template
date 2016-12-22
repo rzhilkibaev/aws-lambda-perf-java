@@ -1,0 +1,4 @@
+aws_profile="{{ aws_profile }}"
+aws_account="{{ aws_account }}"
+aws_region="{{ aws_region }}"
+aws_resource_prefix="{{ aws_resource_prefix }}"

@@ -1,0 +1,16 @@
+subprojects {
+    apply plugin: "java"
+
+    repositories {
+        mavenCentral()
+    }
+
+    task publish(type: Copy, dependsOn: jar) {
+        from jar
+        into "/tmp/lambda/"
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "3.2.1"
+}
