@@ -1,15 +1,14 @@
 subprojects {
     apply plugin: "java"
-    apply plugin: "application"
     
     repositories {
         mavenCentral()
     }
-    
-    dependencies {
-        compile group: "com.amazonaws", name: "aws-java-sdk-lambda", version: "1.11.69"
-        compile group: "com.amazonaws", name: "aws-java-sdk-logs", version: "1.11.69"
-    }
+}
+
+configure([project(":lifecycle_test")]) {
+    apply plugin: "application"
+    applicationDefaultJvmArgs = ["-Daws_region=${aws_region}", "-Daws_resource_prefix=${aws_resource_prefix}"]
 }
 
 task wrapper(type: Wrapper) {

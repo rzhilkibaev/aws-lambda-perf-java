@@ -1,1 +1,2 @@
-include ':lifecycle_test'
+include ":base"
+include ":lifecycle_test"

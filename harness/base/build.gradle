@@ -1,0 +1,4 @@
+dependencies {
+    compile group: "com.amazonaws", name: "aws-java-sdk-lambda", version: "1.11.69"
+    compile group: "com.amazonaws", name: "aws-java-sdk-logs", version: "1.11.69"
+}
