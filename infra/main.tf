@@ -1,6 +1,6 @@
-module "lambda_lifecycle" {
+module "lambda_dummy_256" {
   source = "./modules/lambda"
-  name = "lifecycle"
+  name = "dummy_256"
   filename = "/tmp/lambda/dummy.jar"
   memory_size = "256"
   role_arn = "${module.role_lambda.aws_iam_role_arn}"
