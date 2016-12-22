@@ -1,0 +1,2 @@
+aws_region={{ aws_region }}
+aws_resource_prefix={{ aws_resource_prefix }}

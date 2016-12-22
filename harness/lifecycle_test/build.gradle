@@ -1,0 +1,2 @@
+mainClassName = "com.rz.lambda.perf.java.lifecycle.LifecycleTest"
+applicationDefaultJvmArgs = ["-Daws_region=${aws_region}", "-Daws_resource_prefix=${aws_resource_prefix}"]

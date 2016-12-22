@@ -27,8 +27,9 @@ public class Lambda {
 	public Map<String, String> handle(Map<String, String> request) {
 		// container is unpaused/resumed/thawed
 		numberOfRequestsHandled++;
+		System.out.println("numberOfRequestsHandled=" + numberOfRequestsHandled);
 		Map<String, String> response = new HashMap<>();
-		response.put("lambdaAge", String.valueOf(numberOfRequestsHandled));
+		response.put("numberOfRequestsHandled", String.valueOf(numberOfRequestsHandled));
 		return response;
 		// container is paused/suspended/frozen
 	}
