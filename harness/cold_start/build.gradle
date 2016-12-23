@@ -1,0 +1,5 @@
+mainClassName = "com.rz.lambda.perf.java.coldstart.ColdStartTest"
+dependencies {
+    compile project(":base")
+    compile group: "com.google.guava", name: "guava", version: "20.0"
+}

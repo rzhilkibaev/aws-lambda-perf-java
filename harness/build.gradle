@@ -6,7 +6,7 @@ subprojects {
     }
 }
 
-configure([project(":lifecycle_test")]) {
+configure([project(":lifecycle_test"), project(":cold_start")]) {
     apply plugin: "application"
     applicationDefaultJvmArgs = ["-Daws_region=${aws_region}", "-Daws_resource_prefix=${aws_resource_prefix}"]
 }

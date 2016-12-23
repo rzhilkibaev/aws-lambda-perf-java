@@ -1,2 +1,3 @@
 include ":base"
+include ":cold_start"
 include ":lifecycle_test"
