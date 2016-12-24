@@ -2,4 +2,6 @@ mainClassName = "com.rz.lambda.perf.java.coldstart.ColdStartTest"
 dependencies {
     compile project(":base")
     compile group: "com.google.guava", name: "guava", version: "20.0"
+    compile group: "org.slf4j", name: "slf4j-api", version: "1.7.22"
+    compile group: "ch.qos.logback", name: "logback-classic", version: "1.1.8"
 }
