@@ -1,5 +1,7 @@
 package com.rz.lambda.perf.java.base;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import com.amazonaws.regions.Regions;
@@ -14,6 +16,12 @@ public final class Utils {
 	private static final AWSLambdaClient awsLambda = new AWSLambdaClient().withRegion(awsRegion);
 	private static final AWSLogsClient awsLogs = new AWSLogsClient().withRegion(awsRegion);
 
+	public static List<String> makeCartesianProduct(List<String> list1, List<String> list2) {
+		List<String> product = new ArrayList<>(list1.size() * list2.size());
+		list1.forEach(i1 -> list2.forEach(i2 -> product.add(i1 + "_" + i2)));
+		return product;
+	}
+
 	public static String getAwsResourcePrefix() {
 		return getSystemPropertyOrFail("aws_resource_prefix");
 	}
@@ -26,11 +34,12 @@ public final class Utils {
 		return awsLogs;
 	}
 
-	public static void redeployLambda(String name) {
+	public static void redeployLambda(String name, long sleepMillis) {
 		awsLambda.updateFunctionConfiguration(
 				new UpdateFunctionConfigurationRequest()
 						.withFunctionName(name)
 						.withDescription(UUID.randomUUID().toString()));
+		sleep(sleepMillis); // allow for redeploy
 	}
 
 	public static void invokeLambda(String name) {
@@ -43,6 +52,14 @@ public final class Utils {
 			return value;
 		}
 		throw new RuntimeException("system property " + name + " is not set");
+	}
+
+	private static void sleep(long millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			throw new RuntimeException("Interrupted while waiting for redeploy", e);
+		}
 	}
 
 	private Utils() {
