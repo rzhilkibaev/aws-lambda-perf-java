@@ -13,7 +13,7 @@ public class LifecycleTest {
 
 		long startTime = Instant.now().toEpochMilli();
 
-		Utils.redeployLambda(lambdaFunctionName);
+		Utils.redeployLambda(lambdaFunctionName, 0L);
 
 		System.out.println("Waiting for the lambda to deploy");
 		Thread.sleep(5_000);
