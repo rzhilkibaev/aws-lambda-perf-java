@@ -40,3 +40,23 @@ module "role_lambda" {
   aws_resource_prefix = "${var.aws_resource_prefix}"
 }
 
+resource "aws_api_gateway_rest_api" "rest_api" {
+  name = "${var.aws_resource_prefix}_api"
+}
+
+module "rest_api_endpoint_dummy_256" {
+  source = "./modules/rest_api_endpoint"
+  rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
+  parent_id = "${aws_api_gateway_rest_api.rest_api.root_resource_id}"
+  path_part = "dummy_256"
+  lambda_arn = "${module.lambda_dummy_256.aws_lambda_function_arn}"
+  aws_region = "${var.aws_region}"
+  aws_account = "${var.aws_account}"
+}
+
+resource "aws_api_gateway_deployment" "rest_api_deployment" {
+  rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
+  stage_name = "test"
+  depends_on = ["module.rest_api_endpoint_dummy_256"]
+}
+
