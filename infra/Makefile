@@ -6,5 +6,5 @@ init:
 build:
 	./build.sh
 
-clean:
-	./clean.sh
+force-destroy:
+	./force-destroy.sh
