@@ -5,6 +5,7 @@
 .gradle
 build
 bin
+gradle.properties
 
 # terraform
 terraform.tfstate
