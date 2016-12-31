@@ -2,8 +2,6 @@ package com.rz.lambda.perf.java.coldstart;
 
 import static com.google.common.collect.ImmutableList.of;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
 
 import com.rz.lambda.perf.java.base.Utils;
@@ -14,6 +12,7 @@ public class Main {
 	private static final boolean WARM = false;
 
 	public static void main(String[] args) {
+
 		List<String> functionNames = Utils.makeCartesianProduct(
 				of("dummy_"),
 				of("256", "512", "1024", "1536"));
@@ -37,10 +36,7 @@ public class Main {
 
 		@Override
 		public void invoke(String functionName) throws Exception {
-			try (InputStream in = new URL("https://b8zm7jty53.execute-api.us-west-2.amazonaws.com/test/" + functionName).openConnection().getInputStream()) {
-				while (in.read() != -1)
-					;
-			}
+			Utils.callApiGwEndpoint("/" + functionName);
 		}
 	}
 
