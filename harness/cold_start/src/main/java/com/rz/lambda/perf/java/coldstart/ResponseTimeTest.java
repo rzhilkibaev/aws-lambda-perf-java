@@ -65,7 +65,7 @@ public class ResponseTimeTest {
 		Path csvPath = Paths.get(csvFileName);
 		try (BufferedWriter csvWriter = Files.newBufferedWriter(csvPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
 			// write header
-			csvWriter.write("ts_utc,logical_name,memory_size_mb,invocation_service,duration_ms\n");
+			csvWriter.write("ts_utc,logical_name,memory_size_mb,invoker,state,duration_ms\n");
 			for (InvocationResult r : results) {
 				String[] pair = r.functionName.split("_");
 				String functionLogicalName = pair[0];
@@ -75,7 +75,8 @@ public class ResponseTimeTest {
 						.add(r.timestamp.toString())
 						.add(functionLogicalName)
 						.add(memorySize)
-						.add(r.invocationService.getClass().getSimpleName())
+						.add(r.invocationService.getName())
+						.add(r.invocationService.isCold() ? "cold": "warm")
 						.add(String.valueOf(r.durationMs))
 						.toString() + "\n");
 			}

@@ -10,13 +10,16 @@ import com.rz.lambda.perf.java.base.Utils;
 
 public class Main {
 
+	private static final boolean COLD = true;
+	private static final boolean WARM = false;
+
 	public static void main(String[] args) {
 		List<String> functionNames = Utils.makeCartesianProduct(of("dummy"), of("256", "512", "1024", "1536"));
 		List<InvocationService> invocationServices = of(
-				new ColdApiGwInvocationService(),
-				new ApiGwInvocationService(),
-				new ColdLambdaInvocationService(),
-				new DefaultLambdaInvocationService());
+				new ApiGwInvocationService(COLD),
+				new ApiGwInvocationService(WARM),
+				new LambdaInvocationService(COLD),
+				new LambdaInvocationService(WARM));
 		int invocations = 3;
 		long executionTimeoutMinutes = 5;
 		String outputCsvFileName = "output.csv";
@@ -24,15 +27,11 @@ public class Main {
 				.run();
 	}
 
-	public static class ColdApiGwInvocationService extends ApiGwInvocationService {
-
-		@Override
-		public void beforeInvoke(String functionName) throws Exception {
-			Utils.redeployLambda(Utils.getAwsResourcePrefix() + "_" + functionName, 1_000);
-		}
-	}
-
 	public static class ApiGwInvocationService extends InvocationService {
+
+		public ApiGwInvocationService(boolean cold) {
+			super("api_gw", cold);
+		}
 
 		@Override
 		public void invoke(String functionName) throws Exception {
@@ -43,15 +42,11 @@ public class Main {
 		}
 	}
 
-	public static class ColdLambdaInvocationService extends DefaultLambdaInvocationService {
+	public static class LambdaInvocationService extends InvocationService {
 
-		@Override
-		public void beforeInvoke(String functionName) throws Exception {
-			Utils.redeployLambda(Utils.getAwsResourcePrefix() + "_" + functionName, 1_000);
+		public LambdaInvocationService(boolean cold) {
+			super("lambda", cold);
 		}
-	}
-
-	public static class DefaultLambdaInvocationService extends InvocationService {
 
 		@Override
 		public void invoke(String functionName) throws Exception {
