@@ -15,9 +15,9 @@ import com.amazonaws.services.logs.AWSLogsClient;
 
 public final class Utils {
 
-	private static final String awsResourcePrefix = getSystemPropertyOrFail("aws_resource_prefix");
-	private static final String apiId = getSystemPropertyOrFail("api_id");
-	private static final Regions awsRegion = Regions.fromName(getSystemPropertyOrFail("aws_region"));
+	private static final String awsResourcePrefix = getSystemPropertyOrFail("awsResourcePrefix");
+	private static final String apiId = getSystemPropertyOrFail("apiId");
+	private static final Regions awsRegion = Regions.fromName(getSystemPropertyOrFail("awsRegion"));
 	private static final AWSLambdaClient awsLambda = new AWSLambdaClient().withRegion(awsRegion);
 	private static final AWSLogsClient awsLogs = new AWSLogsClient().withRegion(awsRegion);
 

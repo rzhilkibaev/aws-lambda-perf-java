@@ -1,0 +1,1 @@
+api_id=/bin/bash -c 'read -p "Enter API id: " api_id && echo $api_id'

@@ -1,2 +1,3 @@
-aws_region={{ aws_region }}
-aws_resource_prefix={{ aws_resource_prefix }}
+awsRegion={{ aws_region }}
+apiId={{ api_id }}
+awsResourcePrefix={{ aws_resource_prefix }}
