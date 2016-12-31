@@ -54,9 +54,47 @@ module "rest_api_endpoint_dummy_256" {
   aws_account = "${var.aws_account}"
 }
 
+module "rest_api_endpoint_dummy_512" {
+  source = "./modules/rest_api_endpoint"
+  rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
+  parent_id = "${aws_api_gateway_rest_api.rest_api.root_resource_id}"
+  path_part = "dummy_512"
+  lambda_arn = "${module.lambda_dummy_512.aws_lambda_function_arn}"
+  aws_region = "${var.aws_region}"
+  aws_account = "${var.aws_account}"
+}
+
+module "rest_api_endpoint_dummy_1024" {
+  source = "./modules/rest_api_endpoint"
+  rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
+  parent_id = "${aws_api_gateway_rest_api.rest_api.root_resource_id}"
+  path_part = "dummy_1024"
+  lambda_arn = "${module.lambda_dummy_1024.aws_lambda_function_arn}"
+  aws_region = "${var.aws_region}"
+  aws_account = "${var.aws_account}"
+}
+
+module "rest_api_endpoint_dummy_1536" {
+  source = "./modules/rest_api_endpoint"
+  rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
+  parent_id = "${aws_api_gateway_rest_api.rest_api.root_resource_id}"
+  path_part = "dummy_1536"
+  lambda_arn = "${module.lambda_dummy_1536.aws_lambda_function_arn}"
+  aws_region = "${var.aws_region}"
+  aws_account = "${var.aws_account}"
+}
+
 resource "aws_api_gateway_deployment" "rest_api_deployment" {
   rest_api_id = "${aws_api_gateway_rest_api.rest_api.id}"
   stage_name = "test"
-  depends_on = ["module.rest_api_endpoint_dummy_256"]
+  depends_on = [
+    "module.rest_api_endpoint_dummy_256",
+    "module.rest_api_endpoint_dummy_512",
+    "module.rest_api_endpoint_dummy_1024",
+    "module.rest_api_endpoint_dummy_1536"
+  ]
 }
 
+output "rest_api_url" {
+  value = "https://${aws_api_gateway_rest_api.rest_api.id}.execute-api.${var.aws_region}.amazonaws.com/${aws_api_gateway_deployment.rest_api_deployment.stage_name}"
+}

@@ -42,8 +42,8 @@ resource "aws_api_gateway_integration_response" "integration_response" {
   depends_on = ["aws_api_gateway_integration.integration"]
 }
 
-resource "aws_lambda_permission" "allow_execution_from_api_gw" {
-  statement_id  = "AllowExecutionFromAPIGateway"
+resource "aws_lambda_permission" "allow_execution_from_rest_api_endpoint" {
+  statement_id  = "allow_execution_from_rest_api_endpoint_${var.path_part}"
   action        = "lambda:InvokeFunction"
   function_name = "${var.lambda_arn}"
   principal     = "apigateway.amazonaws.com"
