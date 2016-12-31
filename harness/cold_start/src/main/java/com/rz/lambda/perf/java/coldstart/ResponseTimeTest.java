@@ -65,7 +65,7 @@ public class ResponseTimeTest {
 		Path csvPath = Paths.get(csvFileName);
 		try (BufferedWriter csvWriter = Files.newBufferedWriter(csvPath, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)) {
 			// write header
-			csvWriter.write("ts_utc,logical_name,memory_size_mb,invoker,state,duration_ms\n");
+			csvWriter.write("ts_utc,invocation,logical_name,memory_size_mb,invoker,state,duration_ms\n");
 			for (InvocationResult r : results) {
 				String[] pair = r.functionName.split("_");
 				String functionLogicalName = pair[0];
@@ -73,10 +73,11 @@ public class ResponseTimeTest {
 
 				csvWriter.write(new StringJoiner(",")
 						.add(r.timestamp.toString())
+						.add(String.valueOf(r.invocation))
 						.add(functionLogicalName)
 						.add(memorySize)
 						.add(r.invocationService.getName())
-						.add(r.invocationService.isCold() ? "cold": "warm")
+						.add(r.invocationService.isCold() ? "cold" : "warm")
 						.add(String.valueOf(r.durationMs))
 						.toString() + "\n");
 			}
@@ -114,7 +115,9 @@ public class ResponseTimeTest {
 			for (int i = 0; i < invocations; i++) {
 				// in a thread each function is invoked by multiple invocation services
 				for (InvocationService invocationService : invocationServices) {
-					invocationResults.add(invoke(functionName, invocationService));
+					InvocationResult invocationResult = invoke(functionName, invocationService);
+					invocationResult.invocation = i + 1;
+					invocationResults.add(invocationResult);
 				}
 			}
 			return invocationResults;
@@ -139,16 +142,18 @@ public class ResponseTimeTest {
 		return invocationResult;
 	}
 
-	private final class InvocationResult {
+	private static final class InvocationResult {
 		public Instant timestamp;
 		public InvocationService invocationService;
 		public String functionName;
 		public long durationMs;
+		public int invocation;
 
 		@Override
 		public String toString() {
 			return "timestamp=" + timestamp
-					+ ", invocationService=" + invocationService.getClass().getSimpleName()
+					+ ", invoker=" + invocationService.getName()
+					+ ", state=" + (invocationService.isCold() ? "cold" : "warm")
 					+ ", fullFunctionName=" + functionName
 					+ ", durationMs=" + durationMs;
 		}
