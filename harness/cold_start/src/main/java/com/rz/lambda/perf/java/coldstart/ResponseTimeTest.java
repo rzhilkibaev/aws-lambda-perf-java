@@ -22,8 +22,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.rz.lambda.perf.java.base.Utils;
-
 public class ResponseTimeTest {
 
 	private final Logger log = LoggerFactory.getLogger(ResponseTimeTest.class);
@@ -123,15 +121,14 @@ public class ResponseTimeTest {
 	}
 
 	private InvocationResult invoke(String functionName, InvocationService invocationService) {
-		String fullFunctionName = Utils.getAwsResourcePrefix() + "_" + functionName;
 		InvocationResult invocationResult = new InvocationResult();
 		invocationResult.invocationService = invocationService;
 		invocationResult.functionName = functionName;
 		try {
-			invocationService.beforeInvoke(fullFunctionName);
+			invocationService.beforeInvoke(functionName);
 
 			invocationResult.timestamp = Instant.now();
-			invocationService.invoke(fullFunctionName);
+			invocationService.invoke(functionName);
 			invocationResult.durationMs = Instant.now().toEpochMilli() - invocationResult.timestamp.toEpochMilli();
 
 			log.debug("Sucessfull invocation invocationResult={}", invocationResult);
