@@ -14,7 +14,9 @@ public class Main {
 	private static final boolean WARM = false;
 
 	public static void main(String[] args) {
-		List<String> functionNames = Utils.makeCartesianProduct(of("dummy"), of("256", "512", "1024", "1536"));
+		List<String> functionNames = Utils.makeCartesianProduct(
+				of("dummy_"),
+				of("256", "512", "1024", "1536"));
 		List<InvocationService> invocationServices = of(
 				new ApiGwInvocationService(COLD),
 				new ApiGwInvocationService(WARM),

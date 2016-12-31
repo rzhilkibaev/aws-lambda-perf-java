@@ -18,7 +18,7 @@ public final class Utils {
 
 	public static List<String> makeCartesianProduct(List<String> list1, List<String> list2) {
 		List<String> product = new ArrayList<>(list1.size() * list2.size());
-		list1.forEach(i1 -> list2.forEach(i2 -> product.add(i1 + "_" + i2)));
+		list1.forEach(i1 -> list2.forEach(i2 -> product.add(i1 + i2)));
 		return product;
 	}
 
